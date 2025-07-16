@@ -35,8 +35,11 @@ public class Menu extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jPenilaian = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jLaporan = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jKeluar = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -75,12 +78,34 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar2.add(jData);
 
         jPenilaian.setText("Penilaian");
+
+        jMenuItem4.setText("Proses Penilaian");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jPenilaian.add(jMenuItem4);
+
         jMenuBar2.add(jPenilaian);
 
         jLaporan.setText("Laporan");
+
+        jMenuItem5.setText("Menu Laporan");
+        jLaporan.add(jMenuItem5);
+
         jMenuBar2.add(jLaporan);
 
-        jKeluar.setText("Keluar");
+        jKeluar.setText("Pengaturan");
+
+        jMenuItem6.setText("Keluar");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jKeluar.add(jMenuItem6);
+
         jMenuBar2.add(jKeluar);
 
         setJMenuBar(jMenuBar2);
@@ -116,6 +141,17 @@ public class Menu extends javax.swing.JFrame {
         new Nilai().setVisible(true);
         dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        new Proses_SAW().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +199,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu jPenilaian;
     // End of variables declaration//GEN-END:variables
 }
