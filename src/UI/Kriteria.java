@@ -4,17 +4,63 @@
  */
 package UI;
 
+import connection.connect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Asus
  */
 public class Kriteria extends javax.swing.JFrame {
 
+    private Connection conn = new connect().connect();
+    private DefaultTableModel tabmode;
+
     /**
      * Creates new form Kriteria
      */
     public Kriteria() {
         initComponents();
+        datatable();
+        this.setLocationRelativeTo(null);
+    }
+
+    private void clear() {
+        k_kode.setText("");
+        k_nama.setText("");
+        k_nilai.setText("");
+    }
+
+    private void active() {
+        k_kode.setEnabled(true);
+        k_nama.setEnabled(true);
+        k_nilai.setEnabled(true);
+        k_kode.requestFocus();
+    }
+
+    protected void datatable() {
+        Object[] clcis = {"Kode", "Nama Kriteria", "Nilai"};
+        tabmode = new DefaultTableModel(null, clcis);
+        tablekriteria.setModel(tabmode);
+        String sql = "select * from kriteria";
+        try {
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                String a = hasil.getString("kode_kriteria");
+                String b = hasil.getString("nama_kriteria");
+                String c = hasil.getString("bobot_kriteria");
+
+                String[] data = {a, b, c};
+                tabmode.addRow(data);
+            }
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -33,14 +79,14 @@ public class Kriteria extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jkode = new javax.swing.JTextField();
-        jnama = new javax.swing.JTextField();
-        jnilai = new javax.swing.JTextField();
-        bsimpan = new javax.swing.JButton();
-        bubah = new javax.swing.JButton();
-        bhapus = new javax.swing.JButton();
-        bprint = new javax.swing.JButton();
-        bkembali = new javax.swing.JButton();
+        k_kode = new javax.swing.JTextField();
+        k_nama = new javax.swing.JTextField();
+        k_nilai = new javax.swing.JTextField();
+        k_simpan = new javax.swing.JButton();
+        k_ubah = new javax.swing.JButton();
+        k_hapus = new javax.swing.JButton();
+        k_print = new javax.swing.JButton();
+        k_kembali = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablekriteria = new javax.swing.JTable();
 
@@ -51,75 +97,83 @@ public class Kriteria extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Data Kriteria");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 570, -1));
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 50));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
         jPanel2.setToolTipText("");
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Kode Kriteria");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 26, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nama Kriteria");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 71, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Nilai / Bobot");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 116, -1, -1));
 
-        jkode.addActionListener(new java.awt.event.ActionListener() {
+        k_kode.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        k_kode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jkodeActionPerformed(evt);
+                k_kodeActionPerformed(evt);
             }
         });
-        jPanel2.add(jkode, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 23, 300, -1));
 
-        jnama.addActionListener(new java.awt.event.ActionListener() {
+        k_nama.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        k_nama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jnamaActionPerformed(evt);
+                k_namaActionPerformed(evt);
             }
         });
-        jPanel2.add(jnama, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 68, 300, -1));
 
-        jnilai.addActionListener(new java.awt.event.ActionListener() {
+        k_nilai.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        k_nilai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jnilaiActionPerformed(evt);
+                k_nilaiActionPerformed(evt);
             }
         });
-        jPanel2.add(jnilai, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 113, 300, -1));
 
-        bsimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bsimpan.setText("Simpan");
-        jPanel2.add(bsimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 153, -1, -1));
-
-        bubah.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bubah.setText("Ubah");
-        jPanel2.add(bubah, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 153, -1, -1));
-
-        bhapus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bhapus.setText("Hapus");
-        jPanel2.add(bhapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 153, -1, -1));
-
-        bprint.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bprint.setText("Print");
-        jPanel2.add(bprint, new org.netbeans.lib.awtextra.AbsoluteConstraints(343, 153, -1, -1));
-
-        bkembali.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bkembali.setText("Kembali");
-        bkembali.addActionListener(new java.awt.event.ActionListener() {
+        k_simpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        k_simpan.setText("Simpan");
+        k_simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bkembaliActionPerformed(evt);
+                k_simpanActionPerformed(evt);
             }
         });
-        jPanel2.add(bkembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(421, 153, -1, -1));
+
+        k_ubah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        k_ubah.setText("Ubah");
+        k_ubah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                k_ubahActionPerformed(evt);
+            }
+        });
+
+        k_hapus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        k_hapus.setText("Hapus");
+        k_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                k_hapusActionPerformed(evt);
+            }
+        });
+
+        k_print.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        k_print.setText("Print");
+
+        k_kembali.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        k_kembali.setText("Kembali");
+        k_kembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                k_kembaliActionPerformed(evt);
+            }
+        });
 
         tablekriteria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -132,32 +186,182 @@ public class Kriteria extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablekriteria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablekriteriaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablekriteria);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 540, 320));
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(87, 87, 87)
+                                .addComponent(k_nama))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(96, 96, 96)
+                                .addComponent(k_nilai))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(205, 205, 205)
+                                .addComponent(k_simpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(k_ubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(k_hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(k_print, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(k_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(93, 93, 93)
+                                .addComponent(k_kode, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(168, 168, 168)))
+                .addGap(47, 47, 47))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel2)
+                        .addGap(14, 14, 14))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(k_kode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(k_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(k_nilai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(k_simpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(k_ubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(k_hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(k_print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(k_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 570, 550));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1070, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jkodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jkodeActionPerformed
+    private void k_kodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_kodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jkodeActionPerformed
+    }//GEN-LAST:event_k_kodeActionPerformed
 
-    private void jnamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnamaActionPerformed
+    private void k_namaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_namaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jnamaActionPerformed
+    }//GEN-LAST:event_k_namaActionPerformed
 
-    private void jnilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnilaiActionPerformed
+    private void k_nilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_nilaiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jnilaiActionPerformed
+    }//GEN-LAST:event_k_nilaiActionPerformed
 
-    private void bkembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bkembaliActionPerformed
+    private void k_kembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_kembaliActionPerformed
         // TODO add your handling code here:
         new Menu().setVisible(true);
         dispose();
-    }//GEN-LAST:event_bkembaliActionPerformed
+    }//GEN-LAST:event_k_kembaliActionPerformed
+
+    private void tablekriteriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablekriteriaMouseClicked
+        int clc = tablekriteria.getSelectedRow();
+        String a = tabmode.getValueAt(clc, 0).toString();
+        String b = tabmode.getValueAt(clc, 1).toString();
+        String c = tabmode.getValueAt(clc, 2).toString();
+
+        k_kode.setText(a);
+        k_nama.setText(b);
+        k_nilai.setText(c);
+
+        k_simpan.setVisible(false);
+    }//GEN-LAST:event_tablekriteriaMouseClicked
+
+    private void k_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_simpanActionPerformed
+        String kode = k_kode.getText();
+        String nama = k_nama.getText();
+        String nilai = k_nilai.getText();
+
+        String sql = "INSERT INTO kriteria (kode_kriteria,nama_kriteria,bobot_kriteria) VALUES (?,?,?)";
+        try {
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, kode);
+            stat.setString(2, nama);
+            stat.setString(3, nilai);
+
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+            clear();
+            k_kode.requestFocus();
+            datatable();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Disimpan " + e);
+        }
+    }//GEN-LAST:event_k_simpanActionPerformed
+
+    private void k_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_ubahActionPerformed
+        try {
+            String sql = "UPDATE alternatif SET kode_kriteria=?, nama_kriteria=?, bobot_kriteria=? WHERE kode_kriteria=?";
+            PreparedStatement stat = conn.prepareStatement(sql);
+
+            stat.setString(1, k_kode.getText());
+            stat.setString(2, k_nama.getText());
+            stat.setString(3, k_nilai.getText());
+            stat.setString(6, k_kode.getText());
+
+            stat.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+
+            clear();
+            k_kode.requestFocus();
+            datatable();
+            k_simpan.setVisible(true);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data gagal diubah: " + e.getMessage());
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan tidak terduga: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_k_ubahActionPerformed
+
+    private void k_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_hapusActionPerformed
+     int ok = JOptionPane.showConfirmDialog(null, "hapus", "Konfirmasi Dialog", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (ok == 0) {
+            String sql = "delete from kriteria where kode_kriteria='" + k_kode.getText() + "'";
+            try {
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "data berhasi dihapus");;
+                clear();
+                k_kode.requestFocus();
+                datatable();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
+            }
+        }
+    }//GEN-LAST:event_k_hapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,11 +399,6 @@ public class Kriteria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bhapus;
-    private javax.swing.JButton bkembali;
-    private javax.swing.JButton bprint;
-    private javax.swing.JButton bsimpan;
-    private javax.swing.JButton bubah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -208,9 +407,14 @@ public class Kriteria extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jkode;
-    private javax.swing.JTextField jnama;
-    private javax.swing.JTextField jnilai;
+    private javax.swing.JButton k_hapus;
+    private javax.swing.JButton k_kembali;
+    private javax.swing.JTextField k_kode;
+    private javax.swing.JTextField k_nama;
+    private javax.swing.JTextField k_nilai;
+    private javax.swing.JButton k_print;
+    private javax.swing.JButton k_simpan;
+    private javax.swing.JButton k_ubah;
     private javax.swing.JTable tablekriteria;
     // End of variables declaration//GEN-END:variables
 }

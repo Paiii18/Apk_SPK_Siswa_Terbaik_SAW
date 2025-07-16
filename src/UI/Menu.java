@@ -15,6 +15,8 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        this.setLocationRelativeTo(null);
+
     }
 
     /**
@@ -31,13 +33,13 @@ public class Menu extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuBar2 = new javax.swing.JMenuBar();
         jData = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        datasiswa = new javax.swing.JMenuItem();
+        datakriteria = new javax.swing.JMenuItem();
+        datanilai = new javax.swing.JMenuItem();
         jPenilaian = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        penilaian = new javax.swing.JMenuItem();
         jLaporan = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        laporan = new javax.swing.JMenuItem();
         jKeluar = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
 
@@ -50,54 +52,69 @@ public class Menu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jData.setText("Data");
+        jData.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
-        jMenuItem1.setText("Data Siswa");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        datasiswa.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        datasiswa.setText("Data Siswa");
+        datasiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                datasiswaActionPerformed(evt);
             }
         });
-        jData.add(jMenuItem1);
+        jData.add(datasiswa);
 
-        jMenuItem2.setText("Data Kriteria");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        datakriteria.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        datakriteria.setText("Data Kriteria");
+        datakriteria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                datakriteriaActionPerformed(evt);
             }
         });
-        jData.add(jMenuItem2);
+        jData.add(datakriteria);
 
-        jMenuItem3.setText("Data Nilai");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        datanilai.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        datanilai.setText("Data Nilai");
+        datanilai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                datanilaiActionPerformed(evt);
             }
         });
-        jData.add(jMenuItem3);
+        jData.add(datanilai);
 
         jMenuBar2.add(jData);
 
         jPenilaian.setText("Penilaian");
+        jPenilaian.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
-        jMenuItem4.setText("Proses Penilaian");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        penilaian.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        penilaian.setText("Proses Penilaian");
+        penilaian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                penilaianActionPerformed(evt);
             }
         });
-        jPenilaian.add(jMenuItem4);
+        jPenilaian.add(penilaian);
 
         jMenuBar2.add(jPenilaian);
 
         jLaporan.setText("Laporan");
+        jLaporan.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
-        jMenuItem5.setText("Menu Laporan");
-        jLaporan.add(jMenuItem5);
+        laporan.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        laporan.setText("Menu Laporan");
+        laporan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                laporanActionPerformed(evt);
+            }
+        });
+        jLaporan.add(laporan);
 
         jMenuBar2.add(jLaporan);
 
         jKeluar.setText("Pengaturan");
+        jKeluar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
+        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jMenuItem6.setText("Keluar");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,44 +131,49 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 1068, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
+            .addGap(0, 565, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void datasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datasiswaActionPerformed
         // TODO add your handling code here:
-           new Siswa().setVisible(true); 
-           dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        new Siswa().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_datasiswaActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void datakriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datakriteriaActionPerformed
         // TODO add your handling code here:
         new Kriteria().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_datakriteriaActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void datanilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datanilaiActionPerformed
         // TODO add your handling code here:
         new Nilai().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_datanilaiActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void penilaianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penilaianActionPerformed
         // TODO add your handling code here:
         new Proses_SAW().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_penilaianActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void laporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laporanActionPerformed
+        new Laporan().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_laporanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,6 +211,9 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem datakriteria;
+    private javax.swing.JMenuItem datanilai;
+    private javax.swing.JMenuItem datasiswa;
     private javax.swing.JMenu jData;
     private javax.swing.JMenu jKeluar;
     private javax.swing.JMenu jLaporan;
@@ -196,12 +221,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu jPenilaian;
+    private javax.swing.JMenuItem laporan;
+    private javax.swing.JMenuItem penilaian;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,17 +4,70 @@
  */
 package UI;
 
+import connection.connect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Asus
  */
 public class Siswa extends javax.swing.JFrame {
 
+    private Connection conn = new connect().connect();
+    private DefaultTableModel tabmode;
+
     /**
      * Creates new form Siswa
      */
     public Siswa() {
         initComponents();
+        datatable();
+        this.setLocationRelativeTo(null);
+    }
+
+    private void clear() {
+        ds_kode.setText("");
+        ds_nisn.setText("");
+        ds_namasiswa.setText("");
+        ds_kelas.setText("");
+        ds_jenkel.setSelectedIndex(0);
+    }
+
+    private void active() {
+        ds_kode.setText("");
+        ds_nisn.setEnabled(true);
+        ds_namasiswa.setEnabled(true);
+        ds_kelas.setEnabled(true);
+        ds_jenkel.setEnabled(true);
+        ds_kode.requestFocus();
+    }
+
+    protected void datatable() {
+        Object[] clcis = {"Kode", "Nisn", "Nama", "Kelas", "Jenis Kelamin"};
+        tabmode = new DefaultTableModel(null, clcis);
+        tablesiswa.setModel(tabmode);
+        String sql = "select * from alternatif";
+        try {
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                String a = hasil.getString("kode_siswa");
+                String b = hasil.getString("nisn");
+                String c = hasil.getString("nama_siswa");
+                String d = hasil.getString("kelas");
+                String e = hasil.getString("jenkel");
+
+                String[] data = {a, b, c, d, e};
+                tabmode.addRow(data);
+            }
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -37,19 +90,18 @@ public class Siswa extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jnisn = new javax.swing.JTextField();
-        jkode = new javax.swing.JTextField();
-        jnama = new javax.swing.JTextField();
-        jcari = new javax.swing.JTextField();
-        jkelas = new javax.swing.JTextField();
-        cbjk = new javax.swing.JComboBox<>();
+        ds_nisn = new javax.swing.JTextField();
+        ds_kode = new javax.swing.JTextField();
+        ds_namasiswa = new javax.swing.JTextField();
+        ds_kelas = new javax.swing.JTextField();
+        ds_jenkel = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablesiswa = new javax.swing.JTable();
-        bsimpan = new javax.swing.JButton();
-        bubah = new javax.swing.JButton();
-        bhapus = new javax.swing.JButton();
-        bprint = new javax.swing.JButton();
-        bkembali = new javax.swing.JButton();
+        ds_cari = new javax.swing.JTextField();
+        ds_simpan = new javax.swing.JButton();
+        ds_ubah = new javax.swing.JButton();
+        ds_hapus = new javax.swing.JButton();
+        ds_kembali = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -60,6 +112,7 @@ public class Siswa extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Data Siswa");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -68,8 +121,8 @@ public class Siswa extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(511, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1058, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,50 +132,46 @@ public class Siswa extends javax.swing.JFrame {
                 .addGap(30, 30, 30))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 59));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 59));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 475));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Kode Siswa");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 32, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("NISN");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 80, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Nama Siswa");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 128, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Kelas");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 176, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Jenis Kelamin");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 224, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Cari Nama");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 342, -1, -1));
-        jPanel2.add(jnisn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 324, -1));
-        jPanel2.add(jkode, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 29, 324, -1));
-        jPanel2.add(jnama, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 125, 324, -1));
-        jPanel2.add(jcari, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 339, 324, -1));
-        jPanel2.add(jkelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 173, 324, -1));
 
-        cbjk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Laki-Laki", "Perempuan" }));
-        jPanel2.add(cbjk, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 221, 324, -1));
+        ds_nisn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        ds_kode.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        ds_namasiswa.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        ds_kelas.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        ds_jenkel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        ds_jenkel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laki-Laki", "Perempuan" }));
 
         tablesiswa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,45 +184,225 @@ public class Siswa extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tablesiswa);
-
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 373, 670, 199));
-
-        bsimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bsimpan.setText("Simpan");
-        jPanel2.add(bsimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 261, -1, -1));
-
-        bubah.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bubah.setText("Ubah");
-        jPanel2.add(bubah, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 261, -1, -1));
-
-        bhapus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bhapus.setText("Hapus");
-        jPanel2.add(bhapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(249, 261, -1, -1));
-
-        bprint.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bprint.setText("Print");
-        jPanel2.add(bprint, new org.netbeans.lib.awtextra.AbsoluteConstraints(327, 261, -1, -1));
-
-        bkembali.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        bkembali.setText("Kembali");
-        bkembali.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bkembaliActionPerformed(evt);
+        tablesiswa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablesiswaMouseClicked(evt);
             }
         });
-        jPanel2.add(bkembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 261, -1, -1));
+        jScrollPane1.setViewportView(tablesiswa);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 59, 700, 606));
+        ds_cari.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        ds_simpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ds_simpan.setText("Simpan");
+        ds_simpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ds_simpanActionPerformed(evt);
+            }
+        });
+
+        ds_ubah.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ds_ubah.setText("Ubah");
+        ds_ubah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ds_ubahActionPerformed(evt);
+            }
+        });
+
+        ds_hapus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ds_hapus.setText("Hapus");
+        ds_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ds_hapusActionPerformed(evt);
+            }
+        });
+
+        ds_kembali.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ds_kembali.setText("Kembali");
+        ds_kembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ds_kembaliActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(ds_kode)
+                        .addComponent(ds_nisn)
+                        .addComponent(ds_namasiswa)
+                        .addComponent(ds_kelas)
+                        .addComponent(ds_jenkel, 0, 827, Short.MAX_VALUE)
+                        .addComponent(ds_cari))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(ds_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ds_ubah, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ds_hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ds_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(ds_kode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(ds_nisn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(ds_namasiswa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ds_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ds_jenkel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ds_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ds_ubah, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ds_hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ds_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ds_cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 59, 1070, 620));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bkembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bkembaliActionPerformed
-        // TODO add your handling code here:
+    private void ds_kembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ds_kembaliActionPerformed
         new Menu().setVisible(true);
         dispose();
-    }//GEN-LAST:event_bkembaliActionPerformed
+    }//GEN-LAST:event_ds_kembaliActionPerformed
+
+    private void ds_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ds_simpanActionPerformed
+        String kode = ds_kode.getText();
+        String nisn = ds_nisn.getText();
+        String nama = ds_namasiswa.getText();
+        String kelas = ds_kelas.getText();
+        String jenkel = ds_jenkel.getSelectedItem().toString();
+
+        String sql = "INSERT INTO alternatif (kode_siswa,nisn,nama_siswa,kelas,jenkel) VALUES (?,?,?,?,?)";
+        try {
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, kode);
+            stat.setString(2, nisn);
+            stat.setString(3, nama);
+            stat.setString(4, kelas);
+            stat.setString(5, jenkel);
+
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+            clear();
+            ds_kode.requestFocus();
+            ds_simpan.setVisible(true);
+            datatable();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Disimpan " + e);
+        }
+    }//GEN-LAST:event_ds_simpanActionPerformed
+
+    private void ds_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ds_hapusActionPerformed
+        int ok = JOptionPane.showConfirmDialog(null, "hapus", "Konfirmasi Dialog", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (ok == 0) {
+            String sql = "delete from alternatif where kode_siswa='" + ds_kode.getText() + "'";
+            try {
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "data berhasi dihapus");;
+                clear();
+                ds_kode.requestFocus();
+                datatable();
+                ds_simpan.setVisible(true);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
+            }
+        }
+    }//GEN-LAST:event_ds_hapusActionPerformed
+
+    private void ds_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ds_ubahActionPerformed
+        // TODO add your handling code here:
+        try {
+            String sql = "UPDATE alternatif SET kode_siswa=?, nisn=?, nama_siswa=?, kelas=?,jenkel=? WHERE kode_siswa=?";
+            PreparedStatement stat = conn.prepareStatement(sql);
+
+            stat.setString(1, ds_kode.getText());
+            stat.setString(2, ds_nisn.getText());
+            stat.setString(3, ds_namasiswa.getText());
+            stat.setString(4, ds_kelas.getText());
+            stat.setString(5, ds_jenkel.getSelectedItem().toString());
+            stat.setString(6, ds_kode.getText());
+
+            stat.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+
+            clear();
+            ds_kode.requestFocus();
+            datatable();
+            ds_simpan.setVisible(true);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data gagal diubah: " + e.getMessage());
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan tidak terduga: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_ds_ubahActionPerformed
+
+    private void tablesiswaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablesiswaMouseClicked
+        // TODO add your handling code here:
+        int clc = tablesiswa.getSelectedRow();
+        String a = tabmode.getValueAt(clc, 0).toString();
+        String b = tabmode.getValueAt(clc, 1).toString();
+        String c = tabmode.getValueAt(clc, 2).toString();
+        String d = tabmode.getValueAt(clc, 3).toString();
+        String e = tabmode.getValueAt(clc, 4).toString();
+
+        ds_kode.setText(a);
+        ds_nisn.setText(b);
+        ds_namasiswa.setText(c);
+        ds_kelas.setText(d);
+        ds_jenkel.setSelectedIndex(0);
+
+        ds_simpan.setVisible(false);
+
+
+    }//GEN-LAST:event_tablesiswaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -211,12 +440,16 @@ public class Siswa extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bhapus;
-    private javax.swing.JButton bkembali;
-    private javax.swing.JButton bprint;
-    private javax.swing.JButton bsimpan;
-    private javax.swing.JButton bubah;
-    private javax.swing.JComboBox<String> cbjk;
+    private javax.swing.JTextField ds_cari;
+    private javax.swing.JButton ds_hapus;
+    private javax.swing.JComboBox<String> ds_jenkel;
+    private javax.swing.JTextField ds_kelas;
+    private javax.swing.JButton ds_kembali;
+    private javax.swing.JTextField ds_kode;
+    private javax.swing.JTextField ds_namasiswa;
+    private javax.swing.JTextField ds_nisn;
+    private javax.swing.JButton ds_simpan;
+    private javax.swing.JButton ds_ubah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -229,11 +462,6 @@ public class Siswa extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jcari;
-    private javax.swing.JTextField jkelas;
-    private javax.swing.JTextField jkode;
-    private javax.swing.JTextField jnama;
-    private javax.swing.JTextField jnisn;
     private javax.swing.JTable tablesiswa;
     // End of variables declaration//GEN-END:variables
 }
