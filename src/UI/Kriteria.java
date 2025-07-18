@@ -27,6 +27,7 @@ public class Kriteria extends javax.swing.JFrame {
     public Kriteria() {
         initComponents();
         datatable();
+        autoKodeKriteria();
         this.setLocationRelativeTo(null);
     }
 
@@ -47,6 +48,7 @@ public class Kriteria extends javax.swing.JFrame {
         Object[] clcis = {"Kode", "Nama Kriteria", "Nilai"};
         tabmode = new DefaultTableModel(null, clcis);
         tablekriteria.setModel(tabmode);
+        tabmode.setRowCount(0);
         String sql = "select * from kriteria";
         try {
             java.sql.Statement stat = conn.createStatement();
@@ -60,6 +62,26 @@ public class Kriteria extends javax.swing.JFrame {
                 tabmode.addRow(data);
             }
         } catch (Exception e) {
+        }
+    }
+
+    private void autoKodeKriteria() {
+        try {
+            String sql = "SELECT MAX(kode_kriteria) FROM kriteria";
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            if (rs.next()) {
+                String kode = rs.getString(1);
+                if (kode == null) {
+                    k_kode.setText("K001");
+                } else {
+                    int no = Integer.parseInt(kode.substring(1)) + 1;
+                    String kodeBaru = String.format("K%03d", no);
+                    k_kode.setText(kodeBaru);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal generate kode siswa: " + e.getMessage());
         }
     }
 
@@ -314,6 +336,7 @@ public class Kriteria extends javax.swing.JFrame {
             clear();
             k_kode.requestFocus();
             datatable();
+            autoKodeKriteria();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan " + e);
         }
@@ -321,13 +344,13 @@ public class Kriteria extends javax.swing.JFrame {
 
     private void k_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_ubahActionPerformed
         try {
-            String sql = "UPDATE alternatif SET kode_kriteria=?, nama_kriteria=?, bobot_kriteria=? WHERE kode_kriteria=?";
+            String sql = "UPDATE kriteria SET kode_kriteria=?, nama_kriteria=?, bobot_kriteria=? WHERE kode_kriteria=?";
             PreparedStatement stat = conn.prepareStatement(sql);
 
             stat.setString(1, k_kode.getText());
             stat.setString(2, k_nama.getText());
             stat.setString(3, k_nilai.getText());
-            stat.setString(6, k_kode.getText());
+            stat.setString(4, k_kode.getText());
 
             stat.executeUpdate();
 
@@ -347,7 +370,7 @@ public class Kriteria extends javax.swing.JFrame {
     }//GEN-LAST:event_k_ubahActionPerformed
 
     private void k_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_hapusActionPerformed
-     int ok = JOptionPane.showConfirmDialog(null, "hapus", "Konfirmasi Dialog", JOptionPane.YES_NO_CANCEL_OPTION);
+        int ok = JOptionPane.showConfirmDialog(null, "hapus", "Konfirmasi Dialog", JOptionPane.YES_NO_CANCEL_OPTION);
         if (ok == 0) {
             String sql = "delete from kriteria where kode_kriteria='" + k_kode.getText() + "'";
             try {

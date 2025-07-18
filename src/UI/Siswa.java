@@ -28,7 +28,22 @@ public class Siswa extends javax.swing.JFrame {
     public Siswa() {
         initComponents();
         datatable();
+        autoKodeSiswa();
+        ds_kode.setEditable(false);
         this.setLocationRelativeTo(null);
+        ds_cari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                cariData(ds_cari.getText());
+            }
+
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                cariData(ds_cari.getText());
+            }
+
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                cariData(ds_cari.getText());
+            }
+        });
     }
 
     private void clear() {
@@ -52,6 +67,7 @@ public class Siswa extends javax.swing.JFrame {
         Object[] clcis = {"Kode", "Nisn", "Nama", "Kelas", "Jenis Kelamin"};
         tabmode = new DefaultTableModel(null, clcis);
         tablesiswa.setModel(tabmode);
+        tabmode.setRowCount(0);
         String sql = "select * from alternatif";
         try {
             java.sql.Statement stat = conn.createStatement();
@@ -67,6 +83,53 @@ public class Siswa extends javax.swing.JFrame {
                 tabmode.addRow(data);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal load tabel: " + e.getMessage());
+        }
+    }
+
+    private void autoKodeSiswa() {
+        try {
+            String sql = "SELECT MAX(kode_siswa) FROM alternatif";
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            if (rs.next()) {
+                String kode = rs.getString(1);
+                if (kode == null) {
+                    ds_kode.setText("S001");
+                } else {
+                    int no = Integer.parseInt(kode.substring(1)) + 1;
+                    String kodeBaru = String.format("S%03d", no);
+                    ds_kode.setText(kodeBaru);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal generate kode siswa: " + e.getMessage());
+        }
+    }
+
+    private void cariData(String keyword) {
+        Object[] clcis = {"Kode", "NISN", "Nama", "Kelas", "Jenis Kelamin"};
+        tabmode = new DefaultTableModel(null, clcis);
+        tablesiswa.setModel(tabmode);
+
+        String sql = "SELECT * FROM alternatif WHERE nama_siswa LIKE ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%"); // gunakan wildcard %
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String a = rs.getString("kode_siswa");
+                String b = rs.getString("nisn");
+                String c = rs.getString("nama_siswa");
+                String d = rs.getString("kelas");
+                String e = rs.getString("jenkel");
+                String[] data = {a, b, c, d, e};
+                tabmode.addRow(data);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Pencarian gagal: " + e.getMessage());
         }
     }
 
@@ -165,6 +228,11 @@ public class Siswa extends javax.swing.JFrame {
         ds_nisn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         ds_kode.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        ds_kode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ds_kodeActionPerformed(evt);
+            }
+        });
 
         ds_namasiswa.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
@@ -192,6 +260,11 @@ public class Siswa extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablesiswa);
 
         ds_cari.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        ds_cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ds_cariActionPerformed(evt);
+            }
+        });
 
         ds_simpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         ds_simpan.setText("Simpan");
@@ -347,6 +420,7 @@ public class Siswa extends javax.swing.JFrame {
                 clear();
                 ds_kode.requestFocus();
                 datatable();
+                autoKodeSiswa();
                 ds_simpan.setVisible(true);
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
@@ -403,6 +477,14 @@ public class Siswa extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_tablesiswaMouseClicked
+
+    private void ds_kodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ds_kodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ds_kodeActionPerformed
+
+    private void ds_cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ds_cariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ds_cariActionPerformed
 
     /**
      * @param args the command line arguments

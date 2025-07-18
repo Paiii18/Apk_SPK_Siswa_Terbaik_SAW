@@ -33,6 +33,20 @@ public class Nilai extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         new AlternatifDropdown().loadAlternatifToComboBox(dn_nama);
         new KriteriaDropdown().loadKriteriaToComboBox(dn_kriteria);
+        autoKodeNilai();
+        dn_cari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                cariNilai(dn_cari.getText());
+            }
+
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                cariNilai(dn_cari.getText());
+            }
+
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                cariNilai(dn_cari.getText());
+            }
+        });
     }
 
     private void clear() {
@@ -53,6 +67,7 @@ public class Nilai extends javax.swing.JFrame {
     protected void datatable() {
         Object[] clcis = {"Kode", "Nama Siswa", "Nama Kriteria", "Nilai"};
         tabmode = new DefaultTableModel(null, clcis);
+        tabmode.setRowCount(0);
         tablenilai.setModel(tabmode);
         String sql = "SELECT n.kode, a.nama_siswa, k.nama_kriteria, n.nilai "
                 + "FROM nilai_siswa n "
@@ -120,7 +135,59 @@ public class Nilai extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Gagal memuat Nama Kriteria: " + e.getMessage());
             }
         }
+    }
 
+    private void autoKodeNilai() {
+        try {
+            String sql = "SELECT MAX(kode) FROM nilai_siswa";
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+
+            if (rs.next()) {
+                String kode = rs.getString(1);
+
+                if (kode == null || kode.length() < 2) {
+                    dn_kode.setText("N001");
+                } else {
+                    int no = Integer.parseInt(kode.substring(1)) + 1;
+                    String kodeBaru = String.format("N%03d", no);
+                    dn_kode.setText(kodeBaru);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal generate kode nilai: " + e.getMessage());
+        }
+    }
+
+    private void cariNilai(String keyword) {
+        Object[] clcis = {"Kode", "Nama Siswa", "Nama Kriteria", "Nilai"};
+        tabmode = new DefaultTableModel(null, clcis);
+        tablenilai.setModel(tabmode);
+
+        String sql = "SELECT n.kode, a.nama_siswa, k.nama_kriteria, n.nilai "
+                + "FROM nilai_siswa n "
+                + "JOIN alternatif a ON n.id_siswa = a.id_siswa "
+                + "JOIN kriteria k ON n.id_kriteria = k.id_kriteria "
+                + "WHERE a.nama_siswa LIKE ?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String a = rs.getString("kode");
+                String b = rs.getString("nama_siswa");
+                String c = rs.getString("nama_kriteria");
+                String d = rs.getString("nilai");
+
+                String[] data = {a, b, c, d};
+                tabmode.addRow(data);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Pencarian gagal: " + e.getMessage());
+        }
     }
 
     /**
@@ -194,7 +261,7 @@ public class Nilai extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nilai");
 
-        dn_kode.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        dn_kode.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
         dn_simpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         dn_simpan.setText("Simpan");
@@ -255,6 +322,8 @@ public class Nilai extends javax.swing.JFrame {
         dn_cari.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         dn_nama.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        dn_nilai.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -357,6 +426,7 @@ public class Nilai extends javax.swing.JFrame {
             clear();
             dn_kode.requestFocus();
             datatable();
+            autoKodeNilai();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan " + e);
         }

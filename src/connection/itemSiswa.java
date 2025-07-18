@@ -27,6 +27,6 @@ public class itemSiswa {
 
     @Override
     public String toString() {
-        return idSiswa + ". " + namaSiswa; // untuk tampilan di ComboBox
+        return idSiswa + ". " + namaSiswa; 
     }
 }
