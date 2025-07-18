@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ce18edb-05ea-425b-aa9d-38e2299d2c29">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT n.kode, a.nama_siswa, k.nama_kriteria, n.nilai 
+                FROM nilai_siswa n 
+                JOIN alternatif a ON n.id_siswa = a.id_siswa 
+                JOIN kriteria k ON n.id_kriteria = k.id_kriteria]]>
+	</queryString>
+	<field name="kode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_siswa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_kriteria" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nilai" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="142" height="79" uuid="3e7aaf13-d21d-4cf0-8716-87067a845dd6"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Downloads\\logo yasmine lonjong.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="218" y="10" width="365" height="32" uuid="d482b00b-c411-4fda-a353-c37c94270b03"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="178" y="32" width="420" height="20" uuid="2424cc7d-652f-499c-80bc-fd43d3df1d52"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jl. Poin Mas, RT.02/Rw.10, Mampang, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16433]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="287" y="0" width="214" height="29" uuid="f941a0b9-b80f-4343-b6e9-d48d17239d53"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Data Nilai]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="81ed8202-82cb-4d3f-818e-a3a561427857"/>
+				<text><![CDATA[Kode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="0" width="200" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="d981d1e3-bb10-4f40-a97f-002b53cd6214"/>
+				<text><![CDATA[Nama Siswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="400" y="0" width="200" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="bb10f1b5-5c4e-446b-921c-d34b6c3ff311"/>
+				<text><![CDATA[Nama Kriteria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="600" y="0" width="200" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="25cd973b-fb1f-469a-819e-b179dec002ce"/>
+				<text><![CDATA[Nilai]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="200" height="20" uuid="4d177b51-bd9b-443a-a33e-15303213b4d8"/>
+				<textFieldExpression><![CDATA[$F{kode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="200" height="20" uuid="756630d4-9557-4031-b83f-c71c30162a8d"/>
+				<textFieldExpression><![CDATA[$F{nama_siswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="200" height="20" uuid="9199314c-8d39-4e35-ba31-9ecaeecf8d0d"/>
+				<textFieldExpression><![CDATA[$F{nama_kriteria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="600" y="0" width="200" height="20" uuid="11b335ea-5423-4eb0-bcee-4f372124d557"/>
+				<textFieldExpression><![CDATA[$F{nilai}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="88" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="629" y="0" width="100" height="20" uuid="9e989f5c-36e4-4d18-924e-5fc3575ae271"/>
+				<textFieldExpression><![CDATA[ new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="604" y="20" width="110" height="20" uuid="a8271407-515f-4669-a6ea-00c9386ab5c1"/>
+				<text><![CDATA[Kepala MTs. Yasmine,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="586" y="0" width="43" height="20" uuid="116af3a6-28aa-4b5d-b3f1-3975b3c7f22a"/>
+				<text><![CDATA[Depok,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="68" width="164" height="20" uuid="ee952bea-30ca-4e7a-845b-db544bd6f1d2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. MUHAMAD SOHEH, S.Ag., M.Pd]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="700" y="34" width="100" height="20" uuid="5420994a-7cab-42a5-a9c5-b638398e7767"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

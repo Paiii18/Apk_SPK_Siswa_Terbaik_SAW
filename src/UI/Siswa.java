@@ -403,6 +403,8 @@ public class Siswa extends javax.swing.JFrame {
             clear();
             ds_kode.requestFocus();
             ds_simpan.setVisible(true);
+            autoKodeSiswa();
+
             datatable();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan " + e);
@@ -449,7 +451,6 @@ public class Siswa extends javax.swing.JFrame {
             ds_kode.requestFocus();
             datatable();
             ds_simpan.setVisible(true);
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data gagal diubah: " + e.getMessage());
         } catch (NullPointerException e) {

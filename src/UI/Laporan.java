@@ -5,7 +5,17 @@
 package UI;
 
 import connection.connect;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -70,6 +80,8 @@ public class Laporan extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
+        lp_datakriteria.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lp_datakriteria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
         lp_datakriteria.setText("Laporan Data Kriteria");
         lp_datakriteria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,13 +96,17 @@ public class Laporan extends javax.swing.JFrame {
             }
         });
 
-        lp_perangkingan.setText("Laporan Data Perangkingan");
+        lp_perangkingan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lp_perangkingan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        lp_perangkingan.setText("Laporan Rangking");
         lp_perangkingan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lp_perangkinganActionPerformed(evt);
             }
         });
 
+        lp_datasiswa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lp_datasiswa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
         lp_datasiswa.setText("Laporan Data Siswa");
         lp_datasiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +114,8 @@ public class Laporan extends javax.swing.JFrame {
             }
         });
 
+        lp_nilai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lp_nilai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
         lp_nilai.setText("Laporan Data Nilai");
         lp_nilai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,9 +147,9 @@ public class Laporan extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lp_datakriteria, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lp_datasiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lp_datasiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lp_datakriteria, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lp_perangkingan, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,18 +166,130 @@ public class Laporan extends javax.swing.JFrame {
 
     private void lp_datakriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lp_datakriteriaActionPerformed
         // TODO add your handling code here:
+           try {
+            String namaFile = "src/Reports/LaporanDataKriteria.jasper";
+
+            connect conn = new connect(); 
+            Connection con = conn.connect();
+
+            HashMap<String, Object> parameter = new HashMap<>();
+            java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID"));
+            String formattedDate = formatter.format(new java.util.Date());
+            parameter.put("formattedDate", formattedDate);
+
+            File report_file = new File(namaFile);
+            if (!report_file.exists()) {
+                throw new FileNotFoundException("File laporan tidak ditemukan: " + namaFile);
+            }
+
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(report_file);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, con);
+
+            JasperViewer.viewReport(jasperPrint, false);
+            JasperViewer.setDefaultLookAndFeelDecorated(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File tidak ditemukan: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_lp_datakriteriaActionPerformed
 
     private void lp_perangkinganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lp_perangkinganActionPerformed
         // TODO add your handling code here:
+        try {
+            String namaFile = "src/Reports/LaporanRangking.jasper";
+
+            connect conn = new connect(); 
+            Connection con = conn.connect();
+
+            HashMap<String, Object> parameter = new HashMap<>();
+            java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID"));
+            String formattedDate = formatter.format(new java.util.Date());
+            parameter.put("formattedDate", formattedDate);
+
+            File report_file = new File(namaFile);
+            if (!report_file.exists()) {
+                throw new FileNotFoundException("File laporan tidak ditemukan: " + namaFile);
+            }
+
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(report_file);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, con);
+
+            JasperViewer.viewReport(jasperPrint, false);
+            JasperViewer.setDefaultLookAndFeelDecorated(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File tidak ditemukan: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_lp_perangkinganActionPerformed
 
     private void lp_datasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lp_datasiswaActionPerformed
         // TODO add your handling code here:
+        try {
+            String namaFile = "src/Reports/LaporanDataSiswa.jasper";
+
+            connect conn = new connect(); 
+            Connection con = conn.connect();
+
+            HashMap<String, Object> parameter = new HashMap<>();
+            java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID"));
+            String formattedDate = formatter.format(new java.util.Date());
+            parameter.put("formattedDate", formattedDate);
+
+            File report_file = new File(namaFile);
+            if (!report_file.exists()) {
+                throw new FileNotFoundException("File laporan tidak ditemukan: " + namaFile);
+            }
+
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(report_file);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, con);
+
+            JasperViewer.viewReport(jasperPrint, false);
+            JasperViewer.setDefaultLookAndFeelDecorated(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File tidak ditemukan: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_lp_datasiswaActionPerformed
 
     private void lp_nilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lp_nilaiActionPerformed
         // TODO add your handling code here:
+        try {
+            String namaFile = "src/Reports/LaporanDataNilai.jasper";
+
+            connect conn = new connect(); 
+            Connection con = conn.connect();
+
+            HashMap<String, Object> parameter = new HashMap<>();
+            java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID"));
+            String formattedDate = formatter.format(new java.util.Date());
+            parameter.put("formattedDate", formattedDate);
+
+            File report_file = new File(namaFile);
+            if (!report_file.exists()) {
+                throw new FileNotFoundException("File laporan tidak ditemukan: " + namaFile);
+            }
+
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(report_file);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, con);
+
+            JasperViewer.viewReport(jasperPrint, false);
+            JasperViewer.setDefaultLookAndFeelDecorated(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File tidak ditemukan: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_lp_nilaiActionPerformed
 
     private void lp_kembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lp_kembaliActionPerformed
@@ -182,16 +312,29 @@ public class Laporan extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Laporan.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Laporan.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Laporan.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Laporan.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

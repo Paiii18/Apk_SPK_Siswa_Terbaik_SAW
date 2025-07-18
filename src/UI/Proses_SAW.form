@@ -89,8 +89,14 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                   <Component id="saw_tableX" min="-2" max="-2" attributes="0"/>
@@ -99,17 +105,13 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="saw_perhitungan" min="-2" pref="228" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="saw_simpan" min="-2" pref="115" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="saw_kembali" min="-2" pref="115" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel2" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="305" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="200" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
-                      <Component id="jScrollPane2" max="32767" attributes="0"/>
-                      <Component id="jScrollPane3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -137,9 +139,10 @@
                           <Component id="saw_tableX" alignment="3" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="saw_perhitungan" alignment="3" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="saw_kembali" alignment="3" min="-2" pref="54" max="-2" attributes="0"/>
+                          <Component id="saw_simpan" alignment="3" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -248,6 +251,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Hitung Normalisasi"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saw_normalisasiActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="saw_perhitungan">
           <Properties>
@@ -256,6 +262,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Hitung Perangkingan"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saw_perhitunganActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="saw_tableX">
           <Properties>
@@ -277,6 +286,17 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saw_kembaliActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="saw_simpan">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Simpan"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saw_simpanActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7724c900-7c93-46a9-b05b-c50b379b7d63">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[Select * from alternatif]]>
+	</queryString>
+	<field name="id_siswa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kode_siswa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nisn" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_siswa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kelas" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jenkel" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="142" height="79" uuid="ffea0513-0314-4195-a6ab-e86bdcc2cee7"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Downloads\\logo yasmine lonjong.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="208" y="0" width="365" height="32" uuid="fb78ae60-005d-4181-8f8e-7366eb866e46"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="178" y="32" width="420" height="20" uuid="29282a60-c189-4fa0-89e4-889280e53576"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jl. Poin Mas, RT.02/Rw.10, Mampang, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16433]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="294" y="0" width="200" height="29" uuid="24d62f32-f36a-4aff-a3d4-eddef7bf3b17"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Data Siswa]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="160" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="d8b25ec1-889a-4c51-996f-44c1a2369e57"/>
+				<text><![CDATA[Kode Siswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="160" y="0" width="160" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="585b416c-3a1e-4725-8474-cb7dfed929f3"/>
+				<text><![CDATA[NISN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="320" y="0" width="160" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="768feb77-b35b-449f-81ca-80aa725151fb"/>
+				<text><![CDATA[Nama Siswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="480" y="0" width="160" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="af5926ef-e329-4315-bf21-00dc4f1946d5"/>
+				<text><![CDATA[Kelas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="640" y="0" width="160" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="6057c981-b749-49fe-bd58-21754aa98612"/>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="160" height="20" uuid="af1b7506-319d-4bd4-b1fd-a6a51c93a148"/>
+				<textFieldExpression><![CDATA[$F{kode_siswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="0" width="160" height="20" uuid="2ed45de1-22f3-44d9-9f93-20d0e32d5458"/>
+				<textFieldExpression><![CDATA[$F{nisn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="160" height="20" uuid="7a109c90-d4e8-44f3-b4af-bdf1d729f9a0"/>
+				<textFieldExpression><![CDATA[$F{nama_siswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="0" width="160" height="20" uuid="e92568f1-4eb0-45ef-80a9-de7162470abe"/>
+				<textFieldExpression><![CDATA[$F{kelas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="640" y="0" width="160" height="20" uuid="1a443738-8467-46bc-893f-42a5062d73e3"/>
+				<textFieldExpression><![CDATA[$F{jenkel}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="115" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="598" y="1" width="100" height="20" uuid="16f2c05d-cc53-4e8f-939b-03b5437e78cd"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="555" y="1" width="43" height="20" uuid="e21a6407-c688-455c-9c49-d40379c05bbd"/>
+				<text><![CDATA[Depok,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="573" y="21" width="110" height="20" uuid="0ad3e698-33ec-4408-85ae-25e2779979d8"/>
+				<text><![CDATA[Kepala MTs. Yasmine,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="544" y="94" width="164" height="20" uuid="971675ef-c512-4233-b43e-156c6dda86a8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. MUHAMAD SOHEH, S.Ag., M.Pd]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="700" y="34" width="100" height="20" uuid="24d5a377-e5bc-46eb-833b-ec5085436df8"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

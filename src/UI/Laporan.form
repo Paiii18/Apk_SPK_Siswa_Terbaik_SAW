@@ -110,9 +110,9 @@
           <Group type="103" groupAlignment="1" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lp_datakriteria" alignment="3" min="-2" pref="208" max="-2" attributes="0"/>
-                      <Component id="lp_datasiswa" alignment="3" min="-2" pref="208" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lp_datasiswa" min="-2" pref="208" max="-2" attributes="0"/>
+                      <Component id="lp_datakriteria" min="-2" pref="208" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -129,6 +129,12 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="lp_datakriteria">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Laporan Data Kriteria"/>
           </Properties>
           <Events>
@@ -145,7 +151,13 @@
         </Component>
         <Component class="javax.swing.JButton" name="lp_perangkingan">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Laporan Data Perangkingan"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Laporan Rangking"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lp_perangkinganActionPerformed"/>
@@ -153,6 +165,12 @@
         </Component>
         <Component class="javax.swing.JButton" name="lp_datasiswa">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Laporan Data Siswa"/>
           </Properties>
           <Events>
@@ -161,6 +179,12 @@
         </Component>
         <Component class="javax.swing.JButton" name="lp_nilai">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/assets/docs_120dp_E3E3E3_FILL0_wght400_GRAD0_opsz48.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Laporan Data Nilai"/>
           </Properties>
           <Events>

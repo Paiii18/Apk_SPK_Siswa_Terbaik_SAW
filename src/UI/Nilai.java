@@ -452,6 +452,7 @@ public class Nilai extends javax.swing.JFrame {
             dn_kode.requestFocus();
             dn_simpan.setVisible(true);
             datatable();
+             autoKodeNilai();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data Gagal Diubah " + e);
         }
@@ -469,6 +470,7 @@ public class Nilai extends javax.swing.JFrame {
                 dn_kode.requestFocus();
                 datatable();
                 dn_simpan.setVisible(true);
+                 autoKodeNilai();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
             }
