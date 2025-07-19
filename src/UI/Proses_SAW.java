@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import connection.connect;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -32,172 +36,219 @@ public class Proses_SAW extends javax.swing.JFrame {
 
     }
 
-    private void simpanHasilSAW(DefaultTableModel modelNormalisasi, DefaultTableModel modelPeringkat) {
+    private void tampilTabelX() {
         try {
-            connect conn = new connect();
-            Connection con = conn.connect();
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("DELETE FROM saw");
-            stmt.executeUpdate("DELETE FROM hasil_akhir");
+            // 1. Ambil nama kriteria dari tabel 'kriteria'
+            List<String> kriteriaList = new ArrayList<>();
+            Statement stKriteria = conn.createStatement();
+            ResultSet rsKriteria = stKriteria.executeQuery("SELECT id_kriteria, nama_kriteria FROM kriteria ORDER BY id_kriteria");
 
-            int baris = modelNormalisasi.getRowCount();
+            StringBuilder sqlSelect = new StringBuilder("SELECT a.nama_siswa");
+            while (rsKriteria.next()) {
+                int idKriteria = rsKriteria.getInt("id_kriteria");
+                String namaKriteria = rsKriteria.getString("nama_kriteria");
+                kriteriaList.add(namaKriteria);
 
-            for (int i = 0; i < baris; i++) {
-                String namaSiswa = modelPeringkat.getValueAt(i, 0).toString();
-                double skorAkhir = Double.parseDouble(modelPeringkat.getValueAt(i, 1).toString());
+                // Buat query CASE WHEN untuk tiap kriteria
+                sqlSelect.append(", MAX(CASE WHEN n.id_kriteria = ").append(idKriteria)
+                        .append(" THEN n.nilai END) AS `").append(namaKriteria).append("`");
+            }
+            sqlSelect.append(" FROM nilai_siswa n JOIN alternatif a ON n.id_siswa = a.id_siswa GROUP BY a.nama_siswa");
 
-                int idSiswa = getIdSiswaByNama(namaSiswa, con);
-                
-                String deleteSaw = "DELETE FROM saw";
-                String deleteHasil = "DELETE FROM hasil_akhir";
-                String sqlInsertHasil = "INSERT INTO hasil_akhir (id_siswa, skor_akhir) VALUES (?, ?)";
-                PreparedStatement psHasil = con.prepareStatement(sqlInsertHasil, Statement.RETURN_GENERATED_KEYS);
-                psHasil.setInt(1, idSiswa);
-                psHasil.setDouble(2, skorAkhir);
-                psHasil.executeUpdate();
+            // 2. Siapkan kolom untuk JTable
+            List<String> kolomHeader = new ArrayList<>();
+            kolomHeader.add("Nama Siswa");
+            kolomHeader.addAll(kriteriaList);
 
-                ResultSet rsHasil = psHasil.getGeneratedKeys();
-                int idHasil = 0;
-                if (rsHasil.next()) {
-                    idHasil = rsHasil.getInt(1);
-                } else {
-                    throw new SQLException("Gagal mendapatkan id_hasil.");
+            DefaultTableModel model = new DefaultTableModel(null, kolomHeader.toArray());
+            tableX.setModel(model);
+
+            // 3. Eksekusi query dinamis
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sqlSelect.toString());
+
+            while (rs.next()) {
+                List<Object> dataRow = new ArrayList<>();
+                dataRow.add(rs.getString("nama_siswa"));
+                for (String kriteria : kriteriaList) {
+                    dataRow.add(rs.getObject(kriteria)); // ambil nilai per kriteria
                 }
-                for (int j = 1; j <= 5; j++) {
-                    double nilaiNormalisasi = Double.parseDouble(modelNormalisasi.getValueAt(i, j).toString());
-                    int idKriteria = j;
-                    int idPenilaian = getIdPenilaian(idSiswa, idKriteria, con);
-
-                    String sqlSaw = "INSERT INTO saw (id_siswa, id_penilaian, id_kriteria, nilai_normalisasi, id_hasil) VALUES (?, ?, ?, ?, ?)";
-                    PreparedStatement psSaw = con.prepareStatement(sqlSaw);
-                    psSaw.setInt(1, idSiswa);
-                    psSaw.setInt(2, idPenilaian);
-                    psSaw.setInt(3, idKriteria);
-                    psSaw.setDouble(4, nilaiNormalisasi);
-                    psSaw.setInt(5, idHasil);
-                    psSaw.executeUpdate();
-                }
+                model.addRow(dataRow.toArray());
             }
 
-            JOptionPane.showMessageDialog(null, "Data hasil SAW berhasil disimpan ke database.");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Gagal menyimpan hasil SAW: " + e.getMessage());
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal tampil Tabel X Dinamis: " + e.getMessage());
         }
     }
 
-    private void tampilTabelX() {
-        Object[] kolom = {"Nama Siswa", "Rapot", "Absensi", "Sikap", "Ekskul", "Keterampilan"};
-        DefaultTableModel model = new DefaultTableModel(null, kolom);
-        tableX.setModel(model);
-
+    private void simpanDanTampilkanNormalisasiSAW() {
         try {
-            String sql = "SELECT a.nama_siswa, "
-                    + "MAX(CASE WHEN n.id_kriteria = 1 THEN n.nilai END) AS rapot, "
-                    + "MAX(CASE WHEN n.id_kriteria = 2 THEN n.nilai END) AS absensi, "
-                    + "MAX(CASE WHEN n.id_kriteria = 3 THEN n.nilai END) AS sikap, "
-                    + "MAX(CASE WHEN n.id_kriteria = 4 THEN n.nilai END) AS ekskul, "
-                    + "MAX(CASE WHEN n.id_kriteria = 5 THEN n.nilai END) AS keterampilan "
-                    + "FROM nilai_siswa n "
-                    + "JOIN alternatif a ON n.id_siswa = a.id_siswa "
-                    + "GROUP BY a.nama_siswa";
+            // Step 0: Hapus data sebelumnya di tabel saw
+            Statement stClear = conn.createStatement();
+            stClear.executeUpdate("DELETE FROM saw");
 
+            // Step 1: Ambil nilai max per kriteria
+            Map<Integer, Float> nilaiMaxPerKriteria = new HashMap<>();
+            Statement stMax = conn.createStatement();
+            ResultSet rsMax = stMax.executeQuery("SELECT id_kriteria, MAX(nilai) AS max_nilai FROM nilai_siswa GROUP BY id_kriteria");
+            while (rsMax.next()) {
+                int idKriteria = rsMax.getInt("id_kriteria");
+                float maxNilai = rsMax.getFloat("max_nilai");
+                nilaiMaxPerKriteria.put(idKriteria, maxNilai);
+            }
+
+            // Step 2: Ambil semua data nilai_siswa
+            String sql = "SELECT * FROM nilai_siswa";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
+
+            // Step 3: Insert ke tabel saw
+            String insertSql = "INSERT INTO saw (id_siswa, id_penilaian, id_kriteria, nilai_normalisasi) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstInsert = conn.prepareStatement(insertSql);
+
             while (rs.next()) {
-                Object[] data = {
-                    rs.getString("nama_siswa"),
-                    rs.getInt("rapot"),
-                    rs.getInt("absensi"),
-                    rs.getInt("sikap"),
-                    rs.getInt("ekskul"),
-                    rs.getInt("keterampilan")
-                };
-                model.addRow(data);
+                int idSiswa = rs.getInt("id_siswa");
+                int idPenilaian = rs.getInt("id_penilaian");
+                int idKriteria = rs.getInt("id_kriteria");
+                float nilai = rs.getFloat("nilai");
+
+                float max = nilaiMaxPerKriteria.getOrDefault(idKriteria, 1f);
+                float normalisasi = (max == 0) ? 0 : nilai / max;
+
+                pstInsert.setInt(1, idSiswa);
+                pstInsert.setInt(2, idPenilaian);
+                pstInsert.setInt(3, idKriteria);
+                pstInsert.setFloat(4, normalisasi);
+                pstInsert.addBatch();
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Gagal tampil Tabel X: " + e.getMessage());
-        }
-    }
 
-    private void tampilNormalisasi() {
-        DefaultTableModel model = (DefaultTableModel) tableX.getModel();
-        int rowCount = model.getRowCount();
+            pstInsert.executeBatch(); // Simpan semua sekaligus
 
-        double[][] nilai = new double[rowCount][5];
-        double[] max = new double[5];
+            // Step 4: Tampilkan ke JTable (dengan nama kriteria dinamis)
+            List<String> kriteriaList = new ArrayList<>();
+            Statement stKriteria = conn.createStatement();
+            ResultSet rsKriteria = stKriteria.executeQuery("SELECT id_kriteria, nama_kriteria FROM kriteria ORDER BY id_kriteria");
 
-        for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < 5; j++) {
-                nilai[i][j] = Double.parseDouble(model.getValueAt(i, j + 1).toString());
-                if (nilai[i][j] > max[j]) {
-                    max[j] = nilai[i][j];
+            Map<Integer, String> mapKriteria = new HashMap<>();
+            while (rsKriteria.next()) {
+                int id = rsKriteria.getInt("id_kriteria");
+                String nama = rsKriteria.getString("nama_kriteria");
+                mapKriteria.put(id, nama);
+                kriteriaList.add(nama);
+            }
+
+            List<String> kolomHeader = new ArrayList<>();
+            kolomHeader.add("Nama Siswa");
+            kolomHeader.addAll(kriteriaList);
+            DefaultTableModel model = new DefaultTableModel(null, kolomHeader.toArray());
+            tableNormalisasi.setModel(model); // ganti sesuai nama JTable kamu
+
+            // Ambil nilai normalisasi yang baru saja disimpan, dan gabung dengan nama siswa
+            String sqlTampil = "SELECT a.nama_siswa, s.id_kriteria, s.nilai_normalisasi "
+                    + "FROM saw s JOIN alternatif a ON s.id_siswa = a.id_siswa ORDER BY a.nama_siswa, s.id_kriteria";
+
+            Statement stTampil = conn.createStatement();
+            ResultSet rsTampil = stTampil.executeQuery(sqlTampil);
+
+            Map<String, Map<String, Float>> dataMap = new LinkedHashMap<>();
+            while (rsTampil.next()) {
+                String namaSiswa = rsTampil.getString("nama_siswa");
+                int idKriteria = rsTampil.getInt("id_kriteria");
+                float nilaiNorm = rsTampil.getFloat("nilai_normalisasi");
+
+                String namaKriteria = mapKriteria.get(idKriteria);
+                dataMap.putIfAbsent(namaSiswa, new HashMap<>());
+                dataMap.get(namaSiswa).put(namaKriteria, nilaiNorm);
+            }
+
+            for (String nama : dataMap.keySet()) {
+                List<Object> baris = new ArrayList<>();
+                baris.add(nama);
+                for (String kriteria : kriteriaList) {
+                    Float nilai = dataMap.get(nama).getOrDefault(kriteria, 0f);
+                    baris.add(String.format("%.6f", nilai));
                 }
+                model.addRow(baris.toArray());
             }
-        }
 
-        String[] kolom = {"Nama Siswa", "Rapot", "Absensi", "Sikap", "Ekskul", "Keterampilan"};
-        DefaultTableModel normalModel = new DefaultTableModel(null, kolom);
-        tableNormalisasi.setModel(normalModel);
+            JOptionPane.showMessageDialog(null, "Normalisasi disimpan dan ditampilkan.");
 
-        for (int i = 0; i < rowCount; i++) {
-            Object[] row = new Object[6];
-            row[0] = model.getValueAt(i, 0);
-            for (int j = 0; j < 5; j++) {
-                row[j + 1] = String.format("%.4f", nilai[i][j] / max[j]);
-            }
-            normalModel.addRow(row);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal simpan/tampil normalisasi: " + e.getMessage());
         }
     }
 
-    private void tampilPeringkingan() {
-        double[] bobot = {0.25, 0.15, 0.2, 0.2, 0.2};
-
-        DefaultTableModel model = (DefaultTableModel) tableNormalisasi.getModel();
-        int rowCount = model.getRowCount();
-
-        String[] kolom = {"Nama Siswa", "Preferensi", "Ranking"};
-        DefaultTableModel prefModel = new DefaultTableModel(null, kolom);
-        tablePrefrensi.setModel(prefModel);
-
-        ArrayList<Object[]> hasil = new ArrayList<>();
-        for (int i = 0; i < rowCount; i++) {
-            double skor = 0;
-            for (int j = 0; j < 5; j++) {
-                skor += Double.parseDouble(model.getValueAt(i, j + 1).toString()) * bobot[j];
+    private void hitungDanTampilkanSkorAkhirSAW() {
+        try {
+            // Ambil semua bobot per kriteria
+            Map<Integer, Float> bobotPerKriteria = new HashMap<>();
+            Statement stBobot = conn.createStatement();
+            ResultSet rsBobot = stBobot.executeQuery("SELECT id_kriteria, bobot_kriteria FROM kriteria");
+            while (rsBobot.next()) {
+                int idKriteria = rsBobot.getInt("id_kriteria");
+                float bobot = rsBobot.getFloat("bobot_kriteria");
+                bobotPerKriteria.put(idKriteria, bobot);
             }
-            hasil.add(new Object[]{model.getValueAt(i, 0), skor});
-        }
 
-        hasil.sort((a, b) -> Double.compare((double) b[1], (double) a[1]));
+            // Ambil nilai normalisasi per siswa
+            String sql = "SELECT s.id_siswa, a.nama_siswa, s.id_kriteria, s.nilai_normalisasi "
+                    + "FROM saw s JOIN alternatif a ON s.id_siswa = a.id_siswa "
+                    + "ORDER BY s.id_siswa, s.id_kriteria";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
 
-        int no = 1;
-        for (Object[] h : hasil) {
-            prefModel.addRow(new Object[]{h[0], String.format("%.4f", h[1]), no++});
-        }
-    }
+            Map<Integer, Float> skorAkhirPerSiswa = new LinkedHashMap<>();
+            Map<Integer, String> namaSiswaMap = new LinkedHashMap<>();
 
-    private int getIdSiswaByNama(String nama, Connection con) throws SQLException {
-        String sql = "SELECT id_siswa FROM alternatif WHERE nama_siswa = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, nama);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt("id_siswa");
-        }
-        throw new SQLException("Siswa tidak ditemukan: " + nama);
-    }
+            while (rs.next()) {
+                int idSiswa = rs.getInt("id_siswa");
+                String namaSiswa = rs.getString("nama_siswa");
+                int idKriteria = rs.getInt("id_kriteria");
+                float nilaiNorm = rs.getFloat("nilai_normalisasi");
+                float bobot = bobotPerKriteria.getOrDefault(idKriteria, 0f);
+                float nilaiBobot = nilaiNorm * bobot;
 
-    private int getIdPenilaian(int idSiswa, int idKriteria, Connection con) throws SQLException {
-        String sql = "SELECT id_penilaian FROM nilai_siswa WHERE id_siswa = ? AND id_kriteria = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, idSiswa);
-        ps.setInt(2, idKriteria);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt("id_penilaian");
+                skorAkhirPerSiswa.put(idSiswa, skorAkhirPerSiswa.getOrDefault(idSiswa, 0f) + nilaiBobot);
+                namaSiswaMap.put(idSiswa, namaSiswa);
+            }
+
+            // Konversi ke list dan urutkan descending berdasarkan skor akhir
+            List<Map.Entry<Integer, Float>> listSkor = new ArrayList<>(skorAkhirPerSiswa.entrySet());
+            listSkor.sort((a, b) -> Float.compare(b.getValue(), a.getValue())); // DESC
+
+            // Tampilkan ke JTable dengan penomoran
+            String[] kolom = {"Rangking", "Nama Siswa", "Skor Akhir"};
+            DefaultTableModel model = new DefaultTableModel(null, kolom);
+            tablePrefrensi.setModel(model); // Ganti dengan nama JTable kamu
+
+            // Hapus data lama di tabel hasil_akhir (optional, agar tidak duplikat)
+            Statement clearSt = conn.createStatement();
+            clearSt.executeUpdate("DELETE FROM hasil_akhir");
+
+            // Simpan ke tabel hasil_akhir
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO hasil_akhir (id_siswa, skor_akhir) VALUES (?, ?)");
+
+            int no = 1;
+            for (Map.Entry<Integer, Float> entry : listSkor) {
+                int id = entry.getKey();
+                String nama = namaSiswaMap.get(id);
+                float skor = entry.getValue();
+
+                // Tambahkan ke tabel tampilan dengan nomor urut
+                model.addRow(new Object[]{no++, nama, String.format("%.4f", skor)});
+
+                // Simpan ke DB
+                ps.setInt(1, id);
+                ps.setFloat(2, skor);
+                ps.executeUpdate();
+            }
+
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Skor akhir berhasil dihitung, ditampilkan, dan disimpan.");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal hitung/simpan skor akhir: " + e.getMessage());
         }
-        throw new SQLException("Penilaian tidak ditemukan untuk siswa ID " + idSiswa + " dan kriteria ID " + idKriteria);
     }
 
     /**
@@ -225,9 +276,10 @@ public class Proses_SAW extends javax.swing.JFrame {
         saw_perhitungan = new javax.swing.JButton();
         saw_tableX = new javax.swing.JButton();
         saw_kembali = new javax.swing.JButton();
-        saw_simpan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -340,14 +392,6 @@ public class Proses_SAW extends javax.swing.JFrame {
             }
         });
 
-        saw_simpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        saw_simpan.setText("Simpan");
-        saw_simpan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saw_simpanActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -371,10 +415,8 @@ public class Proses_SAW extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(saw_perhitungan, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(saw_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(saw_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 200, Short.MAX_VALUE)))
+                        .addGap(0, 305, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -398,8 +440,7 @@ public class Proses_SAW extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(saw_tableX, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(saw_perhitungan, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(saw_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(saw_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(saw_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(105, 105, 105))
         );
 
@@ -421,22 +462,12 @@ public class Proses_SAW extends javax.swing.JFrame {
 
     private void saw_normalisasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saw_normalisasiActionPerformed
         // TODO add your handling code here:
-        tampilNormalisasi();
+        simpanDanTampilkanNormalisasiSAW();
     }//GEN-LAST:event_saw_normalisasiActionPerformed
 
     private void saw_perhitunganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saw_perhitunganActionPerformed
-        // TODO add your handling code here:
-        tampilPeringkingan();
+        hitungDanTampilkanSkorAkhirSAW();
     }//GEN-LAST:event_saw_perhitunganActionPerformed
-
-    private void saw_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saw_simpanActionPerformed
-        // TODO add your handling code here:
-
-        DefaultTableModel modelNormalisasi = (DefaultTableModel) tableNormalisasi.getModel();
-        DefaultTableModel modelPeringkat = (DefaultTableModel) tablePrefrensi.getModel();
-
-        simpanHasilSAW(modelNormalisasi, modelPeringkat);
-    }//GEN-LAST:event_saw_simpanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -494,7 +525,6 @@ public class Proses_SAW extends javax.swing.JFrame {
     private javax.swing.JButton saw_kembali;
     private javax.swing.JButton saw_normalisasi;
     private javax.swing.JButton saw_perhitungan;
-    private javax.swing.JButton saw_simpan;
     private javax.swing.JButton saw_tableX;
     private javax.swing.JTable tableNormalisasi;
     private javax.swing.JTable tablePrefrensi;

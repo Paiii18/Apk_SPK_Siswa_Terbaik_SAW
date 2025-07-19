@@ -73,10 +73,10 @@ public class Kriteria extends javax.swing.JFrame {
             if (rs.next()) {
                 String kode = rs.getString(1);
                 if (kode == null) {
-                    k_kode.setText("K001");
+                    k_kode.setText("C001");
                 } else {
                     int no = Integer.parseInt(kode.substring(1)) + 1;
-                    String kodeBaru = String.format("K%03d", no);
+                    String kodeBaru = String.format("C%03d", no);
                     k_kode.setText(kodeBaru);
                 }
             }
@@ -113,6 +113,7 @@ public class Kriteria extends javax.swing.JFrame {
         tablekriteria = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
