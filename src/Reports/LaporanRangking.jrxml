@@ -28,10 +28,6 @@ ORDER BY ranking ASC;]]>
 	</background>
 	<title>
 		<band height="91" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="142" height="79" uuid="1e350d85-b322-474d-8d5b-b97fadd4da6e"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Downloads\\logo yasmine lonjong.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="194" y="32" width="420" height="20" uuid="d8bca5ad-79ba-4680-9c2c-1287eb00e1f0"/>
 				<textElement>
@@ -46,6 +42,10 @@ ORDER BY ranking ASC;]]>
 				</textElement>
 				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="103" height="91" uuid="3bf0cae1-1233-4338-9916-a32a8036f4f8"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

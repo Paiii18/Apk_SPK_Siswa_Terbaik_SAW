@@ -90,6 +90,7 @@ public class Laporan extends javax.swing.JFrame {
             }
         });
 
+        lp_kembali.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lp_kembali.setText("Kembali");
         lp_kembali.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,17 +168,17 @@ public class Laporan extends javax.swing.JFrame {
 
     private void lp_datakriteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lp_datakriteriaActionPerformed
         // TODO add your handling code here:
-           try {
+        try {
             String namaFile = "src/Reports/LaporanDataKriteria.jasper";
 
-            connect conn = new connect(); 
+            connect conn = new connect();
             Connection con = conn.connect();
 
             HashMap<String, Object> parameter = new HashMap<>();
             java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID"));
             String formattedDate = formatter.format(new java.util.Date());
             parameter.put("formattedDate", formattedDate);
-
+            System.out.println("Tanggal formatted: " + formattedDate);
             File report_file = new File(namaFile);
             if (!report_file.exists()) {
                 throw new FileNotFoundException("File laporan tidak ditemukan: " + namaFile);
@@ -202,7 +203,7 @@ public class Laporan extends javax.swing.JFrame {
         try {
             String namaFile = "src/Reports/LaporanRangking.jasper";
 
-            connect conn = new connect(); 
+            connect conn = new connect();
             Connection con = conn.connect();
 
             HashMap<String, Object> parameter = new HashMap<>();
@@ -234,13 +235,14 @@ public class Laporan extends javax.swing.JFrame {
         try {
             String namaFile = "src/Reports/LaporanDataSiswa.jasper";
 
-            connect conn = new connect(); 
+            connect conn = new connect();
             Connection con = conn.connect();
 
             HashMap<String, Object> parameter = new HashMap<>();
             java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID"));
             String formattedDate = formatter.format(new java.util.Date());
             parameter.put("formattedDate", formattedDate);
+            System.out.println("Tanggal formatted: " + formattedDate);
 
             File report_file = new File(namaFile);
             if (!report_file.exists()) {
@@ -266,7 +268,7 @@ public class Laporan extends javax.swing.JFrame {
         try {
             String namaFile = "src/Reports/LaporanDataNilai.jasper";
 
-            connect conn = new connect(); 
+            connect conn = new connect();
             Connection con = conn.connect();
 
             HashMap<String, Object> parameter = new HashMap<>();
@@ -313,29 +315,24 @@ public class Laporan extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class  
+            java.util.logging.Logger.getLogger(Laporan.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Laporan.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class  
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Laporan.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Laporan.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Laporan.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

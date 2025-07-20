@@ -26,10 +26,6 @@
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="142" height="79" uuid="3e7aaf13-d21d-4cf0-8716-87067a845dd6"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Downloads\\logo yasmine lonjong.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="218" y="10" width="365" height="32" uuid="d482b00b-c411-4fda-a353-c37c94270b03"/>
 				<textElement>
@@ -44,6 +40,10 @@
 				</textElement>
 				<text><![CDATA[Jl. Poin Mas, RT.02/Rw.10, Mampang, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16433]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="103" height="79" uuid="5fccb3c7-308a-4aaf-ba57-248b4b4ff074"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -101,7 +101,7 @@
 		<band height="88" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="629" y="0" width="100" height="20" uuid="9e989f5c-36e4-4d18-924e-5fc3575ae271"/>
-				<textFieldExpression><![CDATA[ new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="604" y="20" width="110" height="20" uuid="a8271407-515f-4669-a6ea-00c9386ab5c1"/>

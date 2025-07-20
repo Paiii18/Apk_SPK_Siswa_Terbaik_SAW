@@ -469,6 +469,15 @@ public class Proses_SAW extends javax.swing.JFrame {
         hitungDanTampilkanSkorAkhirSAW();
     }//GEN-LAST:event_saw_perhitunganActionPerformed
 
+    private void saw_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saw_simpanActionPerformed
+        // TODO add your handling code here:
+//        DefaultTableModel modelNormalisasi = (DefaultTableModel) tableNormalisasi.getModel();
+//        DefaultTableModel modelPeringkat = (DefaultTableModel) tablePrefrensi.getModel();
+//
+//        simpanHasilSAW(modelNormalisasi, modelPeringkat);
+    }//GEN-LAST:event_saw_simpanActionPerformed
+
+
     /**
      * @param args the command line arguments
      */

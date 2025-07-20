@@ -3,21 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package background;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
 /**
  *
- * @author LENOVO
+ * @author Asus
  */
-
-public class background extends JPanel{
-    private Image image;
+public class bg2 extends JPanel{
+     private Image image;
     
-    public background(){
-        image = new ImageIcon(getClass().getResource("/assets/gambarsekolah.jpg")).getImage();
+    public bg2(){
+        image = new ImageIcon(getClass().getResource("/assets/background.jpg")).getImage();
     }
     
     @Override
@@ -29,5 +30,3 @@ public class background extends JPanel{
         gd.dispose();
     }
 }
-
-

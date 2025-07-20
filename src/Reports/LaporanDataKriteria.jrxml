@@ -23,10 +23,6 @@
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="142" height="79" uuid="0a8e492b-88a3-42c3-ae5e-8966a50d34a5"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Downloads\\logo yasmine lonjong.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="178" y="32" width="420" height="20" uuid="f7e5625a-2794-4d8d-9483-e0fa51f8b9c6"/>
 				<textElement>
@@ -41,6 +37,10 @@
 				</textElement>
 				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="103" height="79" uuid="de68d715-2384-42b1-bda7-cf1c18b5b128"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -129,7 +129,7 @@
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="617" y="0" width="100" height="20" uuid="351298b6-a485-48af-9cb0-267a5e20689e"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{formattedDate}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
