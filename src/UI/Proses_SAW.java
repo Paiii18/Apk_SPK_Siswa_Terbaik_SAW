@@ -38,7 +38,7 @@ public class Proses_SAW extends javax.swing.JFrame {
 
     private void tampilTabelX() {
         try {
-            // 1. Ambil nama kriteria dari tabel 'kriteria'
+   
             List<String> kriteriaList = new ArrayList<>();
             Statement stKriteria = conn.createStatement();
             ResultSet rsKriteria = stKriteria.executeQuery("SELECT id_kriteria, nama_kriteria FROM kriteria ORDER BY id_kriteria");
@@ -49,13 +49,13 @@ public class Proses_SAW extends javax.swing.JFrame {
                 String namaKriteria = rsKriteria.getString("nama_kriteria");
                 kriteriaList.add(namaKriteria);
 
-                // Buat query CASE WHEN untuk tiap kriteria
+              
                 sqlSelect.append(", MAX(CASE WHEN n.id_kriteria = ").append(idKriteria)
                         .append(" THEN n.nilai END) AS `").append(namaKriteria).append("`");
             }
             sqlSelect.append(" FROM nilai_siswa n JOIN alternatif a ON n.id_siswa = a.id_siswa GROUP BY a.nama_siswa");
 
-            // 2. Siapkan kolom untuk JTable
+        
             List<String> kolomHeader = new ArrayList<>();
             kolomHeader.add("Nama Siswa");
             kolomHeader.addAll(kriteriaList);
@@ -63,7 +63,7 @@ public class Proses_SAW extends javax.swing.JFrame {
             DefaultTableModel model = new DefaultTableModel(null, kolomHeader.toArray());
             tableX.setModel(model);
 
-            // 3. Eksekusi query dinamis
+        
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sqlSelect.toString());
 
@@ -71,7 +71,7 @@ public class Proses_SAW extends javax.swing.JFrame {
                 List<Object> dataRow = new ArrayList<>();
                 dataRow.add(rs.getString("nama_siswa"));
                 for (String kriteria : kriteriaList) {
-                    dataRow.add(rs.getObject(kriteria)); // ambil nilai per kriteria
+                    dataRow.add(rs.getObject(kriteria)); 
                 }
                 model.addRow(dataRow.toArray());
             }
@@ -83,11 +83,9 @@ public class Proses_SAW extends javax.swing.JFrame {
 
     private void simpanDanTampilkanNormalisasiSAW() {
         try {
-            // Step 0: Hapus data sebelumnya di tabel saw
             Statement stClear = conn.createStatement();
             stClear.executeUpdate("DELETE FROM saw");
 
-            // Step 1: Ambil nilai max per kriteria
             Map<Integer, Float> nilaiMaxPerKriteria = new HashMap<>();
             Statement stMax = conn.createStatement();
             ResultSet rsMax = stMax.executeQuery("SELECT id_kriteria, MAX(nilai) AS max_nilai FROM nilai_siswa GROUP BY id_kriteria");
@@ -97,12 +95,10 @@ public class Proses_SAW extends javax.swing.JFrame {
                 nilaiMaxPerKriteria.put(idKriteria, maxNilai);
             }
 
-            // Step 2: Ambil semua data nilai_siswa
             String sql = "SELECT * FROM nilai_siswa";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
-            // Step 3: Insert ke tabel saw
             String insertSql = "INSERT INTO saw (id_siswa, id_penilaian, id_kriteria, nilai_normalisasi) VALUES (?, ?, ?, ?)";
             PreparedStatement pstInsert = conn.prepareStatement(insertSql);
 
@@ -122,9 +118,8 @@ public class Proses_SAW extends javax.swing.JFrame {
                 pstInsert.addBatch();
             }
 
-            pstInsert.executeBatch(); // Simpan semua sekaligus
+            pstInsert.executeBatch();
 
-            // Step 4: Tampilkan ke JTable (dengan nama kriteria dinamis)
             List<String> kriteriaList = new ArrayList<>();
             Statement stKriteria = conn.createStatement();
             ResultSet rsKriteria = stKriteria.executeQuery("SELECT id_kriteria, nama_kriteria FROM kriteria ORDER BY id_kriteria");
@@ -141,9 +136,8 @@ public class Proses_SAW extends javax.swing.JFrame {
             kolomHeader.add("Nama Siswa");
             kolomHeader.addAll(kriteriaList);
             DefaultTableModel model = new DefaultTableModel(null, kolomHeader.toArray());
-            tableNormalisasi.setModel(model); // ganti sesuai nama JTable kamu
+            tableNormalisasi.setModel(model); 
 
-            // Ambil nilai normalisasi yang baru saja disimpan, dan gabung dengan nama siswa
             String sqlTampil = "SELECT a.nama_siswa, s.id_kriteria, s.nilai_normalisasi "
                     + "FROM saw s JOIN alternatif a ON s.id_siswa = a.id_siswa ORDER BY a.nama_siswa, s.id_kriteria";
 
@@ -180,7 +174,7 @@ public class Proses_SAW extends javax.swing.JFrame {
 
     private void hitungDanTampilkanSkorAkhirSAW() {
         try {
-            // Ambil semua bobot per kriteria
+
             Map<Integer, Float> bobotPerKriteria = new HashMap<>();
             Statement stBobot = conn.createStatement();
             ResultSet rsBobot = stBobot.executeQuery("SELECT id_kriteria, bobot_kriteria FROM kriteria");
@@ -190,7 +184,6 @@ public class Proses_SAW extends javax.swing.JFrame {
                 bobotPerKriteria.put(idKriteria, bobot);
             }
 
-            // Ambil nilai normalisasi per siswa
             String sql = "SELECT s.id_siswa, a.nama_siswa, s.id_kriteria, s.nilai_normalisasi "
                     + "FROM saw s JOIN alternatif a ON s.id_siswa = a.id_siswa "
                     + "ORDER BY s.id_siswa, s.id_kriteria";
@@ -211,21 +204,16 @@ public class Proses_SAW extends javax.swing.JFrame {
                 skorAkhirPerSiswa.put(idSiswa, skorAkhirPerSiswa.getOrDefault(idSiswa, 0f) + nilaiBobot);
                 namaSiswaMap.put(idSiswa, namaSiswa);
             }
-
-            // Konversi ke list dan urutkan descending berdasarkan skor akhir
+   
             List<Map.Entry<Integer, Float>> listSkor = new ArrayList<>(skorAkhirPerSiswa.entrySet());
-            listSkor.sort((a, b) -> Float.compare(b.getValue(), a.getValue())); // DESC
+            listSkor.sort((a, b) -> Float.compare(b.getValue(), a.getValue())); 
 
-            // Tampilkan ke JTable dengan penomoran
             String[] kolom = {"Rangking", "Nama Siswa", "Skor Akhir"};
             DefaultTableModel model = new DefaultTableModel(null, kolom);
-            tablePrefrensi.setModel(model); // Ganti dengan nama JTable kamu
-
-            // Hapus data lama di tabel hasil_akhir (optional, agar tidak duplikat)
+            tablePrefrensi.setModel(model);
             Statement clearSt = conn.createStatement();
             clearSt.executeUpdate("DELETE FROM hasil_akhir");
 
-            // Simpan ke tabel hasil_akhir
             PreparedStatement ps = conn.prepareStatement("INSERT INTO hasil_akhir (id_siswa, skor_akhir) VALUES (?, ?)");
 
             int no = 1;
@@ -233,11 +221,7 @@ public class Proses_SAW extends javax.swing.JFrame {
                 int id = entry.getKey();
                 String nama = namaSiswaMap.get(id);
                 float skor = entry.getValue();
-
-                // Tambahkan ke tabel tampilan dengan nomor urut
                 model.addRow(new Object[]{no++, nama, String.format("%.4f", skor)});
-
-                // Simpan ke DB
                 ps.setInt(1, id);
                 ps.setFloat(2, skor);
                 ps.executeUpdate();

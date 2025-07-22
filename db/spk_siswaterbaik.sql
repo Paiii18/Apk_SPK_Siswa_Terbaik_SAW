@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 18, 2025 at 01:30 PM
+-- Generation Time: Jul 20, 2025 at 05:09 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -36,16 +36,6 @@ CREATE TABLE `alternatif` (
   `jenkel` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `alternatif`
---
-
-INSERT INTO `alternatif` (`id_siswa`, `kode_siswa`, `nisn`, `nama_siswa`, `kelas`, `jenkel`) VALUES
-(1, 'S001', '0038512253', 'Elsa Nur Fitri', 'XII IPA 1', 'Laki-Laki'),
-(2, 'S002', '0054013663', 'Defita Syida', 'XII IPA', 'Perempuan'),
-(3, 'S003', '0056358072', 'Alika Salwan', 'XII IPA 1', 'Laki-Laki'),
-(4, 'S004', '006913470', 'Chakra Naruto', 'XII IPA 1', 'Laki-Laki');
-
 -- --------------------------------------------------------
 
 --
@@ -57,15 +47,6 @@ CREATE TABLE `hasil_akhir` (
   `id_siswa` int DEFAULT NULL,
   `skor_akhir` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `hasil_akhir`
---
-
-INSERT INTO `hasil_akhir` (`id_hasil`, `id_siswa`, `skor_akhir`) VALUES
-(6, 3, 0.9833),
-(7, 1, 0.925),
-(8, 2, 0.9195);
 
 -- --------------------------------------------------------
 
@@ -80,17 +61,6 @@ CREATE TABLE `kriteria` (
   `bobot_kriteria` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `kriteria`
---
-
-INSERT INTO `kriteria` (`id_kriteria`, `kode_kriteria`, `nama_kriteria`, `bobot_kriteria`) VALUES
-(1, 'K001', 'Nilai Rata-Rata Rapot', 0.25),
-(2, 'K002', 'Absensi', 0.15),
-(3, 'K003', 'Sikap', 0.2),
-(4, 'K004', 'Ekstrakurikuler', 0.2),
-(5, 'K005', 'Keterampilan', 0.2);
-
 -- --------------------------------------------------------
 
 --
@@ -104,27 +74,6 @@ CREATE TABLE `nilai_siswa` (
   `id_kriteria` int DEFAULT NULL,
   `nilai` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `nilai_siswa`
---
-
-INSERT INTO `nilai_siswa` (`id_penilaian`, `kode`, `id_siswa`, `id_kriteria`, `nilai`) VALUES
-(1, 'N001', 1, 1, 90),
-(2, 'N002', 1, 2, 90),
-(3, 'N003', 1, 3, 70),
-(4, 'N004', 1, 4, 70),
-(6, 'N005', 1, 5, 70),
-(7, 'N006', 2, 1, 70),
-(8, 'N007', 2, 2, 90),
-(9, 'N008', 2, 3, 80),
-(10, 'N009', 2, 4, 80),
-(11, 'N010', 2, 5, 70),
-(12, 'N011', 3, 1, 90),
-(13, 'N012', 3, 2, 80),
-(14, 'N013', 3, 3, 80),
-(15, 'N014', 3, 4, 80),
-(16, 'N015', 3, 5, 80);
 
 -- --------------------------------------------------------
 
@@ -141,27 +90,6 @@ CREATE TABLE `saw` (
   `id_hasil` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `saw`
---
-
-INSERT INTO `saw` (`id_saw`, `id_siswa`, `id_penilaian`, `id_kriteria`, `nilai_normalisasi`, `id_hasil`) VALUES
-(28, 3, 12, 1, 1, 6),
-(29, 3, 13, 2, 1, 6),
-(30, 3, 14, 3, 0.875, 6),
-(31, 3, 15, 4, 0.875, 6),
-(32, 3, 16, 5, 0.875, 6),
-(33, 1, 1, 1, 0.7778, 7),
-(34, 1, 2, 2, 1, 7),
-(35, 1, 3, 3, 1, 7),
-(36, 1, 4, 4, 1, 7),
-(37, 1, 6, 5, 0.875, 7),
-(38, 2, 7, 1, 1, 8),
-(39, 2, 8, 2, 0.8889, 8),
-(40, 2, 9, 3, 1, 8),
-(41, 2, 10, 4, 1, 8),
-(42, 2, 11, 5, 1, 8);
-
 -- --------------------------------------------------------
 
 --
@@ -173,13 +101,6 @@ CREATE TABLE `users` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id_users`, `username`, `password`) VALUES
-(1, 'Admin', 'e64b78fc3bc91bcbc7dc232ba8ec59e0');
 
 --
 -- Indexes for dumped tables
@@ -237,37 +158,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id_siswa` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_siswa` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hasil_akhir`
 --
 ALTER TABLE `hasil_akhir`
-  MODIFY `id_hasil` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_hasil` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id_kriteria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_kriteria` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `nilai_siswa`
 --
 ALTER TABLE `nilai_siswa`
-  MODIFY `id_penilaian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_penilaian` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `saw`
 --
 ALTER TABLE `saw`
-  MODIFY `id_saw` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_saw` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_users` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_users` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

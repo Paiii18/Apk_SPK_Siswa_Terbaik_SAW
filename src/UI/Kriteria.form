@@ -97,16 +97,14 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="205" max="-2" attributes="0"/>
-                                  <Component id="k_simpan" max="32767" attributes="0"/>
+                                  <Component id="k_simpan" pref="110" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="k_ubah" max="32767" attributes="0"/>
+                                  <Component id="k_ubah" pref="96" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="k_hapus" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="k_print" pref="120" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="k_kembali" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="k_hapus" pref="101" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="k_kembali" pref="116" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -150,7 +148,6 @@
                       <Component id="k_simpan" alignment="3" max="32767" attributes="0"/>
                       <Component id="k_ubah" alignment="3" max="32767" attributes="0"/>
                       <Component id="k_hapus" alignment="3" max="32767" attributes="0"/>
-                      <Component id="k_print" alignment="3" max="32767" attributes="0"/>
                       <Component id="k_kembali" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -256,14 +253,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="k_hapusActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="k_print">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Print"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="k_kembali">
           <Properties>

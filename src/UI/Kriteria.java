@@ -107,7 +107,6 @@ public class Kriteria extends javax.swing.JFrame {
         k_simpan = new javax.swing.JButton();
         k_ubah = new javax.swing.JButton();
         k_hapus = new javax.swing.JButton();
-        k_print = new javax.swing.JButton();
         k_kembali = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablekriteria = new javax.swing.JTable();
@@ -187,9 +186,6 @@ public class Kriteria extends javax.swing.JFrame {
             }
         });
 
-        k_print.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        k_print.setText("Print");
-
         k_kembali.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         k_kembali.setText("Kembali");
         k_kembali.addActionListener(new java.awt.event.ActionListener() {
@@ -236,16 +232,14 @@ public class Kriteria extends javax.swing.JFrame {
                                 .addComponent(k_nilai))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(205, 205, 205)
-                                .addComponent(k_simpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(k_simpan, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(k_ubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(k_ubah, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(k_hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(k_print, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(k_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18))
+                                .addComponent(k_hapus, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(k_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addGap(155, 155, 155))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(93, 93, 93)
@@ -277,7 +271,6 @@ public class Kriteria extends javax.swing.JFrame {
                     .addComponent(k_simpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(k_ubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(k_hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(k_print, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(k_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,7 +429,6 @@ public class Kriteria extends javax.swing.JFrame {
     private javax.swing.JTextField k_kode;
     private javax.swing.JTextField k_nama;
     private javax.swing.JTextField k_nilai;
-    private javax.swing.JButton k_print;
     private javax.swing.JButton k_simpan;
     private javax.swing.JButton k_ubah;
     private javax.swing.JTable tablekriteria;
