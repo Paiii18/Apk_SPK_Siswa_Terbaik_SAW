@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ce18edb-05ea-425b-aa9d-38e2299d2c29">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="51"/>
 	<property name="ireport.y" value="0"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT n.kode, a.nama_siswa, k.nama_kriteria, n.nilai 
@@ -40,9 +40,10 @@
 				</textElement>
 				<text><![CDATA[Jl. Poin Mas, RT.02/Rw.10, Mampang, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16433]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="103" height="79" uuid="04a3fcab-678b-4f62-bf5e-139bec6c5a06"/>
-				<imageExpression><![CDATA["D:\\Nur Sayid Tamam\\PROGRAM\\Apk_SPK_Siswa_Terbaik_SAW\\src\\assets\\background.jpg"]]></imageExpression>
+			<image scaleImage="RetainShape" hAlign="Left" vAlign="Top">
+				<reportElement mode="Transparent" x="0" y="-2" width="101" height="81" forecolor="#000000" backcolor="#FFFFFF" uuid="645c90d1-e946-4d50-b19e-40d94f51ca31"/>
+				<graphicElement fill="Solid"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

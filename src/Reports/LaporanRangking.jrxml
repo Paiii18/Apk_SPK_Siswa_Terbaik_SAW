@@ -42,9 +42,10 @@ ORDER BY ranking ASC;]]>
 				</textElement>
 				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="103" height="91" uuid="8bb67de6-721a-4ff4-a73f-c67b1abb023a"/>
-				<imageExpression><![CDATA["D:\\Nur Sayid Tamam\\PROGRAM\\Apk_SPK_Siswa_Terbaik_SAW\\src\\assets\\background.jpg"]]></imageExpression>
+			<image scaleImage="RetainShape" hAlign="Left" vAlign="Top">
+				<reportElement mode="Transparent" x="0" y="0" width="101" height="91" forecolor="#000000" backcolor="#FFFFFF" uuid="1d83bdc4-e521-4bb2-84b6-8bfd9c6e9606"/>
+				<graphicElement fill="Solid"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

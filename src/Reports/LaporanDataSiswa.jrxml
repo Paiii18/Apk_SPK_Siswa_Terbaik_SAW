@@ -42,10 +42,6 @@
 				</textElement>
 				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="6" width="103" height="67" uuid="9711ea5d-d9ef-40b8-84d4-deb0a74aa755"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="205" y="32" width="420" height="20" uuid="10b5f43f-17b5-4ca1-97c3-fd56957742f5"/>
 				<textElement>
@@ -53,6 +49,11 @@
 				</textElement>
 				<text><![CDATA[Jl. Poin Mas, RT.02/Rw.10, Mampang, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16433]]></text>
 			</staticText>
+			<image scaleImage="RetainShape" hAlign="Left" vAlign="Top">
+				<reportElement mode="Transparent" x="0" y="0" width="101" height="73" forecolor="#000000" backcolor="#FFFFFF" uuid="fad022e9-c745-4444-b6a5-caa3c001bf91"/>
+				<graphicElement fill="Solid"/>
+				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -155,7 +156,7 @@
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="630" y="10" width="100" height="20" uuid="d7ddd501-a9cf-4bb3-9f2a-7d555d4652c8"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="605" y="30" width="110" height="20" uuid="20c60e64-aea2-4e5f-b3fe-68a1f125d44f"/>
