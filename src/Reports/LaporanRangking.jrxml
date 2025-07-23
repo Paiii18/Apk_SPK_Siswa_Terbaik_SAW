@@ -43,8 +43,8 @@ ORDER BY ranking ASC;]]>
 				<text><![CDATA[Madrasah Tsanawiyah (MTs) Yasmine]]></text>
 			</staticText>
 			<image>
-				<reportElement x="0" y="0" width="103" height="91" uuid="3bf0cae1-1233-4338-9916-a32a8036f4f8"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
+				<reportElement x="0" y="0" width="103" height="91" uuid="8bb67de6-721a-4ff4-a73f-c67b1abb023a"/>
+				<imageExpression><![CDATA["D:\\Nur Sayid Tamam\\PROGRAM\\Apk_SPK_Siswa_Terbaik_SAW\\src\\assets\\background.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -105,8 +105,8 @@ ORDER BY ranking ASC;]]>
 				<text><![CDATA[H. MUHAMAD SOHEH, S.Ag., M.Pd]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="620" y="0" width="100" height="20" uuid="f20bc45e-461b-47d0-9755-a77de322e0df"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<reportElement x="620" y="0" width="100" height="20" uuid="657c15a4-f4e6-4a5d-961e-c328467af1ef"/>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

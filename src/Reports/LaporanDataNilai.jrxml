@@ -41,8 +41,8 @@
 				<text><![CDATA[Jl. Poin Mas, RT.02/Rw.10, Mampang, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16433]]></text>
 			</staticText>
 			<image>
-				<reportElement x="0" y="0" width="103" height="79" uuid="5fccb3c7-308a-4aaf-ba57-248b4b4ff074"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\Apk_Siwa\\src\\assets\\background.jpg"]]></imageExpression>
+				<reportElement x="0" y="0" width="103" height="79" uuid="04a3fcab-678b-4f62-bf5e-139bec6c5a06"/>
+				<imageExpression><![CDATA["D:\\Nur Sayid Tamam\\PROGRAM\\Apk_SPK_Siswa_Terbaik_SAW\\src\\assets\\background.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
