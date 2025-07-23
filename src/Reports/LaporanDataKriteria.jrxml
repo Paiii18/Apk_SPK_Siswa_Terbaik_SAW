@@ -121,7 +121,7 @@
 				<text><![CDATA[Depok,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="569" y="82" width="164" height="20" uuid="248fc55e-d0ec-4fd2-ab1e-28ea030a349a"/>
+				<reportElement x="569" y="82" width="177" height="20" uuid="248fc55e-d0ec-4fd2-ab1e-28ea030a349a"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>

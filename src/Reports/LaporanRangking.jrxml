@@ -63,12 +63,12 @@ ORDER BY ranking ASC;]]>
 		<band height="21" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="243" y="0" width="158" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="f3d48111-034d-4584-9552-aa35f9dea067"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Nama Siswa]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="401" y="0" width="176" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="7f3c52b1-b683-4cee-b985-524fe14e1a97"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Rangking]]></text>
 			</staticText>
 		</band>
@@ -77,12 +77,12 @@ ORDER BY ranking ASC;]]>
 		<band height="21" splitType="Stretch">
 			<textField>
 				<reportElement x="243" y="0" width="158" height="20" uuid="69f1df25-df7e-4af8-bdfd-d75038162b99"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nama_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="401" y="0" width="176" height="20" uuid="b2239dc8-38fd-4879-8acc-741c9a34dec4"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{ranking}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -98,7 +98,7 @@ ORDER BY ranking ASC;]]>
 				<text><![CDATA[Depok,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="566" y="93" width="164" height="20" uuid="82bf774d-3465-40b6-8a1f-b663a17cdebd"/>
+				<reportElement x="566" y="93" width="170" height="20" uuid="82bf774d-3465-40b6-8a1f-b663a17cdebd"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
