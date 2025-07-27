@@ -32,6 +32,7 @@ public class Nilai extends javax.swing.JFrame {
         datatable();
         this.setLocationRelativeTo(null);
         new AlternatifDropdown().loadAlternatifToComboBox(dn_nama);
+        new KelasDropdown(). loadKelasToComboBox(dn_kelas);
         new KriteriaDropdown().loadKriteriaToComboBox(dn_kriteria);
         autoKodeNilai();
         dn_cari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
@@ -52,6 +53,7 @@ public class Nilai extends javax.swing.JFrame {
     private void clear() {
         dn_kode.setText("");
         dn_nama.setSelectedIndex(0);
+        dn_kelas.setSelectedIndex(0);
         dn_kriteria.setSelectedIndex(0);
         dn_nilai.setText("");
     }
@@ -59,17 +61,18 @@ public class Nilai extends javax.swing.JFrame {
     private void active() {
         dn_kode.setEnabled(true);
         dn_nama.setEnabled(true);
+        dn_kelas.setEnabled(true);
         dn_kriteria.setEnabled(true);
         dn_nilai.setEnabled(true);
         dn_kode.requestFocus();
     }
 
     protected void datatable() {
-        Object[] clcis = {"Kode", "Nama Siswa", "Nama Kriteria", "Nilai"};
+        Object[] clcis = {"Kode", "Nama Siswa", "Kelas", "Nama Kriteria", "Nilai"};
         tabmode = new DefaultTableModel(null, clcis);
         tabmode.setRowCount(0);
         tablenilai.setModel(tabmode);
-        String sql = "SELECT n.kode, a.nama_siswa, k.nama_kriteria, n.nilai "
+        String sql = "SELECT n.kode, a.nama_siswa, a.kelas, k.nama_kriteria, n.nilai "
                 + "FROM nilai_siswa n "
                 + "JOIN alternatif a ON n.id_siswa = a.id_siswa "
                 + "JOIN kriteria k ON n.id_kriteria = k.id_kriteria";
@@ -80,10 +83,11 @@ public class Nilai extends javax.swing.JFrame {
             while (hasil.next()) {
                 String a = hasil.getString("kode");
                 String b = hasil.getString("nama_siswa");
-                String c = hasil.getString("nama_kriteria");
-                String d = hasil.getString("nilai");
+                String c = hasil.getString("kelas");
+                String d = hasil.getString("nama_kriteria");
+                String e = hasil.getString("nilai");
 
-                String[] data = {a, b, c, d};
+                String[] data = {a, b, c, d, e};
                 tabmode.addRow(data);
             }
         } catch (Exception e) {
@@ -103,6 +107,29 @@ public class Nilai extends javax.swing.JFrame {
                     int idSiswa = rs.getInt("id_siswa");
                     String namaSiswa = rs.getString("nama_siswa");
                     comboBox.addItem(new itemSiswa(idSiswa, namaSiswa)); // ← langsung masukkan objek Item!
+                }
+
+                rs.close();
+                pst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Gagal memuat Nama Alternatif: " + e.getMessage());
+            }
+        }
+    }
+
+    public class KelasDropdown {
+
+        public void loadKelasToComboBox(JComboBox comboBox) {
+            comboBox.removeAllItems();
+            try {
+                String sql = "SELECT id_siswa, kelas FROM alternatif";
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    int idSiswa = rs.getInt("id_siswa");
+                    String kelasSiswa = rs.getString("kelas");
+                    comboBox.addItem(new itemSiswa(idSiswa, kelasSiswa)); // ← langsung masukkan objek Item!
                 }
 
                 rs.close();
@@ -218,6 +245,8 @@ public class Nilai extends javax.swing.JFrame {
         dn_cari = new javax.swing.JTextField();
         dn_nama = new javax.swing.JComboBox<>();
         dn_nilai = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        dn_kelas = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -326,6 +355,12 @@ public class Nilai extends javax.swing.JFrame {
 
         dn_nilai.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Kelas");
+
+        dn_kelas.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -341,9 +376,11 @@ public class Nilai extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
                 .addGap(66, 66, 66)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dn_kelas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(dn_simpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -374,30 +411,38 @@ public class Nilai extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(dn_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(dn_kriteria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(dn_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel4)
+                        .addGap(11, 11, 11))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dn_kriteria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(dn_nilai, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(dn_hapus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(dn_hapus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dn_ubah, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dn_simpan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dn_kembali, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                    .addComponent(dn_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(dn_cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(12, 12, 12))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1070, 600));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1070, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -453,7 +498,7 @@ public class Nilai extends javax.swing.JFrame {
             dn_kode.requestFocus();
             dn_simpan.setVisible(true);
             datatable();
-             autoKodeNilai();
+            autoKodeNilai();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data Gagal Diubah " + e);
         }
@@ -471,7 +516,7 @@ public class Nilai extends javax.swing.JFrame {
                 dn_kode.requestFocus();
                 datatable();
                 dn_simpan.setVisible(true);
-                 autoKodeNilai();
+                autoKodeNilai();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
             }
@@ -531,6 +576,7 @@ public class Nilai extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dn_cari;
     private javax.swing.JButton dn_hapus;
+    private javax.swing.JComboBox<String> dn_kelas;
     private javax.swing.JButton dn_kembali;
     private javax.swing.JTextField dn_kode;
     private javax.swing.JComboBox<String> dn_kriteria;
@@ -544,6 +590,7 @@ public class Nilai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
